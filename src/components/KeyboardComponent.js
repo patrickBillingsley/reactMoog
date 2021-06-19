@@ -38,36 +38,16 @@ const WhiteKeys = ({ updateSynthState }) => {
     )
 };
 
-// const BlackKeys = () => {
-//     return(
-//         Object.entries(fundamentalOctave).map(arr => {
-//             if(arr[0].length === 1) {
-//                 return(
-//                     <div className='col' />
-//                 );
-//             };
-
-//             return(
-//                 <div className='col key flat'>{arr[0]}</div>
-//             );
-//         })
-//     );
-// };
-
 const Keyboard = props => {
     return(
         <div className='container'>
-
-            <div className='row white-keys'>
-                <WhiteKeys 
-                    updateSynthState={props.updateSynthState}
-                />
+            <div 
+                className='row white-keys'
+                onMouseEnter={props.updateSynthIsPlaying}
+                onMouseLeave={props.updateSynthIsPlaying}
+            >
+                <WhiteKeys updateSynthState={props.updateSynthState} />
             </div>
-
-            {/* <div className='row black-keys'>
-                <BlackKeys />
-            </div> */}
-
         </div>
     );
 };

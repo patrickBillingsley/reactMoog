@@ -10,10 +10,12 @@ class Synth extends Component {
             context: new (window.AudioContext || window.webkitAudioContext)(),
             note: '',
             freq: 440,
-            octave: 1
+            octave: 1,
+            isPlaying: false
         };
 
         this.updateSynthState = this.updateSynthState.bind(this);
+        this.updateSynthIsPlaying = this.updateSynthIsPlaying.bind(this);
     }
 
     updateSynthState(event) {
@@ -26,11 +28,25 @@ class Synth extends Component {
         });
     }
 
+    updateSynthIsPlaying() {
+        this.setState({
+            isPlaying: !this.state.isPlaying
+        })
+    }
+
     render() {
         return(
             <React.Fragment>
-                <Oscillator context={this.state.context} note={this.state.note} freq={this.state.freq} />
-                <Keyboard updateSynthState={this.updateSynthState} />
+                <Oscillator 
+                    context={this.state.context}
+                    note={this.state.note}
+                    freq={this.state.freq}
+                    isPlaying={this.state.isPlaying}
+                />
+                <Keyboard 
+                    updateSynthState={this.updateSynthState}
+                    updateSynthIsPlaying={this.updateSynthIsPlaying}
+                />
             </React.Fragment>
         );
     };

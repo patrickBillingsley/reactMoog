@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ControlFace from './ControlFaceComponent';
 import Keyboard from './KeyboardComponent';
 import Oscillator from './OscillatorComponent';
 
@@ -11,27 +12,39 @@ class Synth extends Component {
             note: '',
             freq: 440,
             octave: 1,
+            vol: 0.5,
             isPlaying: false
         };
 
-        this.updateSynthState = this.updateSynthState.bind(this);
+        this.updateSynthNoteAndOctave = this.updateSynthNoteAndOctave.bind(this);
         this.updateSynthIsPlaying = this.updateSynthIsPlaying.bind(this);
+        this.updateSynthVol = this.updateSynthVol.bind(this);
     }
 
-    updateSynthState(event) {
-        const note = event.target.dataset.note;
-        const freq = event.target.dataset.freq;
+    updateSynthNoteAndOctave(event) {
+        const data = event.target.dataset;
+
+        const note = data.note;
+        const octave = data.octave;
 
         this.setState({
             note: note,
-            freq: freq
+            octave: octave
         });
     }
 
     updateSynthIsPlaying() {
         this.setState({
             isPlaying: !this.state.isPlaying
-        })
+        });
+    }
+
+    updateSynthVol(event) {
+        const newVol = +event.target.value;
+
+        this.setState({
+            vol: newVol
+        });
     }
 
     render() {
@@ -40,13 +53,17 @@ class Synth extends Component {
                 <Oscillator 
                     context={this.state.context}
                     note={this.state.note}
-                    freq={this.state.freq}
+                    octave={this.state.octave}
+                    vol={this.state.vol}
                     isPlaying={this.state.isPlaying}
                 />
-                <Keyboard 
-                    updateSynthState={this.updateSynthState}
-                    updateSynthIsPlaying={this.updateSynthIsPlaying}
-                />
+                <div className='container '>
+                    <ControlFace updateSynthVol={this.updateSynthVol} />
+                    <Keyboard 
+                        updateSynthNoteAndOctave={this.updateSynthNoteAndOctave}
+                        updateSynthIsPlaying={this.updateSynthIsPlaying}
+                    />
+                </div>
             </React.Fragment>
         );
     };

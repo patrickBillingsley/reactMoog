@@ -1,29 +1,63 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+import { FREQUENCIES } from '../shared/frequencies';
 
 class Oscillator extends Component {
     constructor(props) {
         super(props);
 
-        this.osc = props.context.createOscillator();
-        this.gain = props.context.createGain();
+        this.state = {
+            frequencies: FREQUENCIES
+        };
+
+        this.handleNoteChange = this.handleNoteChange.bind(this);
+        this.handleNoteOnAndOff = this.handleNoteOnAndOff.bind(this);
     }
     
     componentDidMount() {
+        this.osc = this.props.context.createOscillator();
+        this.gain = this.props.context.createGain();
+
         this.osc.connect(this.gain);
         this.gain.connect(this.props.context.destination);
-        this.gain.gain.setValueAtTime(0, this.props.context.currentTime);
+
+        this.gain.gain.setValueAtTime(this.props.vol, this.props.context.currentTime);
         this.osc.start()
     }
 
     componentDidUpdate(prevProps) {
-        // Sets the oscillator's frequency if the frequency in props has changed
-        if(+prevProps.freq !== +this.props.freq) {
-            this.osc.frequency.setValueAtTime(+this.props.freq, this.props.context.currentTime)
+        this.handleNoteChange(prevProps);
+        this.handleNoteOnAndOff(prevProps);
+    }
+
+    handleNoteChange(prevProps) {
+        const prevNote = prevProps.note;
+        const currentNote = this.props.note;
+        const prevOctave = prevProps.octave;
+        const currentOctave = this.props.octave;
+
+        if(prevNote + prevOctave !== currentNote + currentOctave) {
+            const newFreq = this.state.frequencies[currentOctave][currentNote];
+
+            this.osc.frequency.setValueAtTime(newFreq, this.props.context.currentTime);
         }
-        // Sets the oscillator's gain node up while the mouse is over the keyboard
-        if(prevProps.isPlaying !== this.props.isPlaying) {
-            if(this.props.isPlaying) {
-                this.gain.gain.setValueAtTime(0.5, this.props.context.currentTime);
+    }
+
+    handleVolChange(prevProps) {
+        const prevVol = prevProps.vol;
+        const currentVol = this.props.vol;
+
+        if(prevVol !== currentVol) {
+            this.gain.gain.setValueAtTime(currentVol);
+        }
+    }
+
+    handleNoteOnAndOff(prevProps) {
+        const prevIsPlaying = prevProps.isPlaying;
+        const currentIsPlaying = this.props.isPlaying;
+
+        if(prevIsPlaying !== currentIsPlaying) {
+            if(currentIsPlaying) {
+                this.gain.gain.setValueAtTime(this.props.vol, this.props.context.currentTime);
             } else {
                 this.gain.gain.setValueAtTime(0, this.props.context.currentTime);
             }

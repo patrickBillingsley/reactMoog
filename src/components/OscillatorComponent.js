@@ -6,7 +6,9 @@ class Oscillator extends Component {
         super(props);
 
         this.state = {
-            frequencies: FREQUENCIES
+            frequencies: FREQUENCIES,
+            osc: this.props.context.createOscillator(),
+            gain: this.props.context.createGain()
         };
 
         this.handleNoteChange = this.handleNoteChange.bind(this);
@@ -14,19 +16,20 @@ class Oscillator extends Component {
     }
     
     componentDidMount() {
-        this.osc = this.props.context.createOscillator();
-        this.gain = this.props.context.createGain();
+        this.state.osc.connect(this.state.gain);
+        this.state.gain.connect(this.props.context.destination);
 
-        this.osc.connect(this.gain);
-        this.gain.connect(this.props.context.destination);
+        this.state.gain.gain.setValueAtTime(this.props.vol, this.props.context.currentTime);
+        this.state.osc.start()
 
-        this.gain.gain.setValueAtTime(this.props.vol, this.props.context.currentTime);
-        this.osc.start()
+        this.props.updateGainArray();
     }
-
+    
     componentDidUpdate(prevProps) {
         this.handleNoteChange(prevProps);
         this.handleNoteOnAndOff(prevProps);
+
+        console.log(this.props.masterVolume.current);
     }
 
     handleNoteChange(prevProps) {
@@ -38,7 +41,7 @@ class Oscillator extends Component {
         if(prevNote + prevOctave !== currentNote + currentOctave) {
             const newFreq = this.state.frequencies[currentOctave][currentNote];
 
-            this.osc.frequency.setValueAtTime(newFreq, this.props.context.currentTime);
+            this.state.osc.frequency.setValueAtTime(newFreq, this.props.context.currentTime);
         }
     }
 
@@ -47,7 +50,7 @@ class Oscillator extends Component {
         const currentVol = this.props.vol;
 
         if(prevVol !== currentVol) {
-            this.gain.gain.setValueAtTime(currentVol);
+            this.state.gain.gain.setValueAtTime(currentVol);
         }
     }
 
@@ -57,9 +60,9 @@ class Oscillator extends Component {
 
         if(prevIsPlaying !== currentIsPlaying) {
             if(currentIsPlaying) {
-                this.gain.gain.setValueAtTime(this.props.vol, this.props.context.currentTime);
+                this.state.gain.gain.setValueAtTime(this.props.vol, this.props.context.currentTime);
             } else {
-                this.gain.gain.setValueAtTime(0, this.props.context.currentTime);
+                this.state.gain.gain.setValueAtTime(0, this.props.context.currentTime);
             }
         }
     }

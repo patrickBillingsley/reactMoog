@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
+import Knob from './KnobComponent';
 
 class ControlFace extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
-        return(
-            <div className='row control-face'>
-                <input 
-                    type='range'
-                    max='1'
-                    step='0.01'
-                    value={this.props.vol}
-                    onChange={this.props.updateSynthVol}
-                />
-            </div>
-        );
+        return <Knob />
     }
 }
 

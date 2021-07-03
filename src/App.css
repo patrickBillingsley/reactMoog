@@ -4,17 +4,23 @@
 }
 
 .key {
-  background-color: beige;
   outline: 1px solid black;
 }
 
-.key.flat {
-  height: 25vh;
-  color: white;
-  background-color: black;
+.key__white {
+  width: 100px;
+  background-color: beige;
+  height: 50vh;
 }
 
-.white-keys {
-  height: 50vh;
+.key__black {
+  --width: 50px;
+  width: var(--width);
+  height: 25vh;
+  background-color: black;
+  color: white;
+  margin-left: calc(var(--width) / -2);
+  margin-right: calc(var(--width) / -2);
+  z-index: 2;
 }
 /*# sourceMappingURL=App.css.map */

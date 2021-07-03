@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import ControlFace from './ControlFaceComponent';
 import Keyboard from './KeyboardComponent';
 import Oscillator from './OscillatorComponent';
+import MasterVolume from './MasterVolumeComponent';
 
 class Synth extends Component {
     constructor(props) {
         super(props);
 
+        this.masterVolume = React.createRef();
+
         this.state = {
             context: new (window.AudioContext || window.webkitAudioContext)(),
             note: '',
             freq: 440,
-            octave: 1,
+            octave: 4,
             vol: 0.5,
             isPlaying: false
         };
@@ -24,12 +27,12 @@ class Synth extends Component {
     updateSynthNoteAndOctave(event) {
         const data = event.target.dataset;
 
-        const note = data.note;
-        const octave = data.octave;
+        const newNote = data.note;
+        const newOctave = data.octave;
 
         this.setState({
-            note: note,
-            octave: octave
+            note: newNote,
+            octave: newOctave
         });
     }
 
@@ -47,18 +50,40 @@ class Synth extends Component {
         });
     }
 
+    updateGainArray() {
+        console.log(this.oscOne);
+    }
+
     render() {
         return(
             <React.Fragment>
                 <Oscillator 
+                    id={1}
                     context={this.state.context}
                     note={this.state.note}
                     octave={this.state.octave}
                     vol={this.state.vol}
                     isPlaying={this.state.isPlaying}
+                    updateGainArray={this.updateGainArray}
+                    masterVolume={this.masterVolume}
                 />
-                <div className='container '>
-                    <ControlFace updateSynthVol={this.updateSynthVol} />
+                {/* <Oscillator 
+                    id={2}
+                    context={this.state.context}
+                    note={this.state.note}
+                    octave={this.state.octave}
+                    vol={this.state.vol}
+                    isPlaying={this.state.isPlaying}
+                /> */}
+                <MasterVolume
+                    context={this.state.context}
+                    ref={this.masterVolume}
+                />
+                <div className='container'>
+                    <ControlFace 
+                        vol={this.state.vol}
+                        updateSynthVol={this.updateSynthVol}
+                    />
                     <Keyboard 
                         updateSynthNoteAndOctave={this.updateSynthNoteAndOctave}
                         updateSynthIsPlaying={this.updateSynthIsPlaying}

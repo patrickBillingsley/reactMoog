@@ -1,35 +1,37 @@
 import React from 'react';
 
-const WhiteKeys = ({ octave, updateSynthNoteAndOctave }) => {
-    let notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-    
+const notes = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
+
+const Keys = ({ octave, updateSynthNoteAndOctave }) => {
     return(
         notes.map(note => {
             const noteName = note;
-    
+            const isFlat = noteName.length === 1 ? false : true;
+            const keyColor = isFlat ? 'key__black' : 'key__white';
+
             return(
-                <div key={noteName + octave}
-                    className='col key'
+                <div
+                    key={noteName + octave}
+                    className={`key ${keyColor}`}
                     data-note={noteName}
                     data-octave={octave}
                     onMouseEnter={updateSynthNoteAndOctave}
-                    >
+                >
                     {noteName + octave}
                 </div>
-            )
+            );
         })
-    )
+    );
 };
 
 const Keyboard = props => {
     return(
         <div 
-            className='row white-keys'
+            className='row keys'
             onMouseEnter={props.updateSynthIsPlaying}
             onMouseLeave={props.updateSynthIsPlaying}
         >
-            <WhiteKeys octave={4} updateSynthNoteAndOctave={props.updateSynthNoteAndOctave} />
-            <WhiteKeys octave={5} updateSynthNoteAndOctave={props.updateSynthNoteAndOctave} />
+            <Keys octave={4} updateSynthNoteAndOctave={props.updateSynthNoteAndOctave} />
         </div>
     );
 };

@@ -6,30 +6,27 @@ class Oscillator extends Component {
         super(props);
 
         this.state = {
-            frequencies: FREQUENCIES,
             osc: this.props.context.createOscillator(),
-            gain: this.props.context.createGain()
+            gain: this.props.context.createGain(),
+            frequencies: FREQUENCIES,
+            vol: 0.5
         };
 
         this.handleNoteChange = this.handleNoteChange.bind(this);
-        this.handleNoteOnAndOff = this.handleNoteOnAndOff.bind(this);
+        // this.handleNoteOnAndOff = this.handleNoteOnAndOff.bind(this);
     }
-    
+
     componentDidMount() {
         this.state.osc.connect(this.state.gain);
-        this.state.gain.connect(this.props.context.destination);
+        this.state.gain.gain.setValueAtTime(this.state.vol, this.props.context.currentTime);
+        this.state.osc.start();
 
-        this.state.gain.gain.setValueAtTime(this.props.vol, this.props.context.currentTime);
-        this.state.osc.start()
-
-        this.props.updateGainArray();
+        this.state.gain.connect(this.props.masterVol);
     }
     
     componentDidUpdate(prevProps) {
         this.handleNoteChange(prevProps);
-        this.handleNoteOnAndOff(prevProps);
-
-        console.log(this.props.masterVolume.current);
+        // this.handleNoteOnAndOff(prevProps);
     }
 
     handleNoteChange(prevProps) {
@@ -45,27 +42,27 @@ class Oscillator extends Component {
         }
     }
 
-    handleVolChange(prevProps) {
-        const prevVol = prevProps.vol;
-        const currentVol = this.props.vol;
+    // handleVolChange(prevProps) {
+    //     const prevVol = prevProps.vol;
+    //     const currentVol = this.props.vol;
 
-        if(prevVol !== currentVol) {
-            this.state.gain.gain.setValueAtTime(currentVol);
-        }
-    }
+    //     if(prevVol !== currentVol) {
+    //         this.state.gain.gain.setValueAtTime(currentVol);
+    //     }
+    // }
 
-    handleNoteOnAndOff(prevProps) {
-        const prevIsPlaying = prevProps.isPlaying;
-        const currentIsPlaying = this.props.isPlaying;
+    // handleNoteOnAndOff(prevProps) {
+    //     const prevIsPlaying = prevProps.isPlaying;
+    //     const currentIsPlaying = this.props.isPlaying;
 
-        if(prevIsPlaying !== currentIsPlaying) {
-            if(currentIsPlaying) {
-                this.state.gain.gain.setValueAtTime(this.props.vol, this.props.context.currentTime);
-            } else {
-                this.state.gain.gain.setValueAtTime(0, this.props.context.currentTime);
-            }
-        }
-    }
+    //     if(prevIsPlaying !== currentIsPlaying) {
+    //         if(currentIsPlaying) {
+    //             this.state.gain.gain.setValueAtTime(this.props.vol, this.props.context.currentTime);
+    //         } else {
+    //             this.state.gain.gain.setValueAtTime(0, this.props.context.currentTime);
+    //         }
+    //     }
+    // }
 
     render() {
         return null;

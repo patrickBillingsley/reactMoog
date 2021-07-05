@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Keyboard from './KeyboardComponent';
 import Oscillator from './OscillatorComponent';
-import MasterVolume from './MasterVolumeComponent';
 
 class Synth extends Component {
     constructor(props) {
@@ -85,10 +84,7 @@ class Synth extends Component {
                 /> */}
                 <div className='container'>
                     <div className='row control-face'>
-                        <MasterVolume
-                            context={this.state.context}
-                            updateSynthVol={this.updateSynthVol}
-                        />
+                        
                     </div>
                     <Keyboard 
                         updateSynthNoteAndOctave={this.updateSynthNoteAndOctave}

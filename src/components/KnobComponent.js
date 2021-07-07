@@ -1,16 +1,18 @@
 import React from 'react';
 
 function Knob(props) {
-    const { value, onChange } = props;
+    const { label, value, max, onChange } = props;
 
     return(
-        <input 
-            type='range'
-            max='1'
-            step='0.01'
-            value={value}
-            onChange={onChange}
-        />
+        <label>{label}
+            <input
+                type='range'
+                max={max}
+                step={max/100}
+                value={value}
+                onChange={onChange}
+            />
+        </label>
     );
 }
 

@@ -8,17 +8,16 @@ class Oscillator extends Component {
         this.state = {
             osc: this.props.context.createOscillator(),
             gain: this.props.context.createGain(),
-            frequencies: FREQUENCIES,
-            vol: 0.5
+            frequencies: FREQUENCIES
         };
 
         this.handleNoteChange = this.handleNoteChange.bind(this);
-        // this.handleNoteOnAndOff = this.handleNoteOnAndOff.bind(this);
+        this.handleVolChange = this.handleVolChange.bind(this);
     }
 
     componentDidMount() {
         this.state.osc.connect(this.state.gain);
-        this.state.gain.gain.setValueAtTime(this.state.vol, this.props.context.currentTime);
+        this.state.gain.gain.setValueAtTime(this.props.vol, this.props.context.currentTime);
         this.state.osc.start();
 
         this.state.gain.connect(this.props.masterVol);
@@ -26,43 +25,29 @@ class Oscillator extends Component {
     
     componentDidUpdate(prevProps) {
         this.handleNoteChange(prevProps);
-        // this.handleNoteOnAndOff(prevProps);
+        this.handleVolChange(prevProps);
     }
 
     handleNoteChange(prevProps) {
-        const prevNote = prevProps.note;
-        const currentNote = this.props.note;
-        const prevOctave = prevProps.octave;
-        const currentOctave = this.props.octave;
+        const prevNote = prevProps.note + prevProps.octave;
+        const currentNote = this.props.note + this.props.octave;
 
-        if(prevNote + prevOctave !== currentNote + currentOctave) {
-            const newFreq = this.state.frequencies[currentOctave][currentNote];
+        if(prevNote !== currentNote) {
+            const octave = (+this.props.octave + this.props.range);
+            const newFreq = this.state.frequencies[octave][this.props.note];
 
             this.state.osc.frequency.setValueAtTime(newFreq, this.props.context.currentTime);
         }
     }
 
-    // handleVolChange(prevProps) {
-    //     const prevVol = prevProps.vol;
-    //     const currentVol = this.props.vol;
+    handleVolChange(prevProps) {
+        const prevVol = prevProps.vol;
+        const currentVol = this.props.vol;
 
-    //     if(prevVol !== currentVol) {
-    //         this.state.gain.gain.setValueAtTime(currentVol);
-    //     }
-    // }
-
-    // handleNoteOnAndOff(prevProps) {
-    //     const prevIsPlaying = prevProps.isPlaying;
-    //     const currentIsPlaying = this.props.isPlaying;
-
-    //     if(prevIsPlaying !== currentIsPlaying) {
-    //         if(currentIsPlaying) {
-    //             this.state.gain.gain.setValueAtTime(this.props.vol, this.props.context.currentTime);
-    //         } else {
-    //             this.state.gain.gain.setValueAtTime(0, this.props.context.currentTime);
-    //         }
-    //     }
-    // }
+        if(currentVol && prevVol !== currentVol) {
+            this.state.gain.gain.setValueAtTime(currentVol, this.props.context.currentTime);
+        }
+    }
 
     render() {
         return null;

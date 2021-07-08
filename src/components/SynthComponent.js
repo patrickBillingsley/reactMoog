@@ -15,6 +15,10 @@ class Synth extends Component {
                 vol: 0.5,
                 range: 4
             },
+            oscTwo: {
+                vol: 0.5,
+                range: 5
+            },
             note: '',
             freq: 440,
             octave: 0,
@@ -26,7 +30,7 @@ class Synth extends Component {
         this.updateSynthNoteAndOctave = this.updateSynthNoteAndOctave.bind(this);
         this.updateSynthIsPlaying = this.updateSynthIsPlaying.bind(this);
         this.updateSynthVol = this.updateSynthVol.bind(this);
-        this.handleOscOneVolChange = this.handleOscOneVolChange.bind(this);
+        this.handleOscVolChange = this.handleOscVolChange.bind(this);
     }
 
     componentDidMount() {
@@ -67,20 +71,20 @@ class Synth extends Component {
     updateSynthVol(event) {
         const newVol = +event.target.value;
 
-        this.setState({ vol: newVol });
+        this.setState(() => ({ vol: newVol }));
     }
 
-    handleOscOneVolChange(event) {
+    handleOscVolChange(event, id) {
         const newVol = +event.target.value;
 
-        this.setState({ oscOne: { vol: newVol } });
+        this.setState(() => ({ [id]: { vol: newVol } }));
     }
 
     render() {
         return(
             <React.Fragment>
                 <Oscillator
-                    id={1}
+                    id='oscOne'
                     context={this.state.context}
                     note={this.state.note}
                     octave={this.state.octave}
@@ -88,15 +92,15 @@ class Synth extends Component {
                     vol={this.state.oscOne.vol}
                     masterVol={this.state.gain}
                 />
-                {/* <Oscillator 
-                    id={2}
+                <Oscillator 
+                    id='oscTwo'
                     context={this.state.context}
                     note={this.state.note}
                     octave={this.state.octave}
-                    vol={this.state.vol}
-                    isPlaying={this.state.isPlaying}
+                    range={this.state.oscTwo.range}
+                    vol={this.state.oscTwo.vol}
                     masterVol={this.state.gain}
-                /> */}
+                />
                 <div className='container'>
                     <div className='row control-face'>
                         <Knob
@@ -107,9 +111,17 @@ class Synth extends Component {
                         />
                         <Knob
                             label='Osc 1 Vol'
+                            id='oscOneVol'
                             value={this.state.oscOne.vol}
                             max={1}
-                            onChange={this.handleOscOneVolChange}
+                            onChange={this.handleOscVolChange}
+                        />
+                        <Knob
+                            label='Osc 2 Vol'
+                            id='oscTwoVol'
+                            value={this.state.oscTwo.vol}
+                            max={1}
+                            onChange={this.handleOscVolChange}
                         />
                     </div>
                     <Keyboard 

@@ -36,9 +36,6 @@ class Oscillator extends Component {
             const octave = (+this.props.octave + this.props.range);
             const newFreq = this.state.frequencies[octave][this.props.note];
 
-            console.log(`octave: ${octave}`);
-            console.log('newFreq:', newFreq);
-
             this.state.osc.frequency.setValueAtTime(newFreq, this.props.context.currentTime);
         }
     }

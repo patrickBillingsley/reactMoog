@@ -30,7 +30,9 @@ class Synth extends Component {
         this.updateSynthNoteAndOctave = this.updateSynthNoteAndOctave.bind(this);
         this.updateSynthIsPlaying = this.updateSynthIsPlaying.bind(this);
         this.updateSynthVol = this.updateSynthVol.bind(this);
-        this.handleOscVolChange = this.handleOscVolChange.bind(this);
+        this.handleOscOneVolChange = this.handleOscOneVolChange.bind(this);
+        this.handleOscTwoVolChange = this.handleOscTwoVolChange.bind(this);
+        // this.handleOscVolChange = this.handleOscVolChange.bind(this);
     }
 
     componentDidMount() {
@@ -39,6 +41,10 @@ class Synth extends Component {
     }
 
     componentDidUpdate(prevprops, prevState) {
+        if(prevState !== this.state) {
+            console.log(this.state);
+        }
+
         if(prevState.isPlaying !== this.state.isPlaying) {
             if(this.state.isPlaying) {
                 this.state.gain.gain.setValueAtTime(this.state.vol, this.state.context.currentTime);
@@ -71,13 +77,27 @@ class Synth extends Component {
     updateSynthVol(event) {
         const newVol = +event.target.value;
 
-        this.setState(() => ({ vol: newVol }));
+        this.setState({ vol: newVol });
     }
 
-    handleOscVolChange(event, id) {
+    // handleOscVolChange(event, id) {
+    //     const newVol = +event.target.value;
+
+    //     this.setState(() => ({ [id]: { vol: newVol } }));
+    // }
+
+    handleOscOneVolChange(event) {
+        console.log('hi');
+
         const newVol = +event.target.value;
 
-        this.setState(() => ({ [id]: { vol: newVol } }));
+        this.setState({ oscOne: { vol: newVol } });
+    }
+
+    handleOscTwoVolChange(event) {
+        const newVol = +event.target.value;
+
+        this.setState({ oscTwo: { vol: newVol } });
     }
 
     render() {
@@ -114,14 +134,14 @@ class Synth extends Component {
                             id='oscOneVol'
                             value={this.state.oscOne.vol}
                             max={1}
-                            onChange={this.handleOscVolChange}
+                            onChange={this.handleOscOneVolChange}
                         />
                         <Knob
                             label='Osc 2 Vol'
                             id='oscTwoVol'
                             value={this.state.oscTwo.vol}
                             max={1}
-                            onChange={this.handleOscVolChange}
+                            onChange={this.handleOscTwoVolChange}
                         />
                     </div>
                     <Keyboard 

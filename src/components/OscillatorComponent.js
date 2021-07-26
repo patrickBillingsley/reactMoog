@@ -13,6 +13,7 @@ class Oscillator extends Component {
 
         this.handleNoteChange = this.handleNoteChange.bind(this);
         this.handleVolChange = this.handleVolChange.bind(this);
+        this.handleDetuneChange = this.handleDetuneChange.bind(this);
     }
 
     componentDidMount() {
@@ -26,6 +27,7 @@ class Oscillator extends Component {
     componentDidUpdate(prevProps) {
         this.handleNoteChange(prevProps);
         this.handleVolChange(prevProps);
+        this.handleDetuneChange(prevProps);
     }
 
     handleNoteChange(prevProps) {
@@ -36,7 +38,7 @@ class Oscillator extends Component {
             const octave = (+this.props.octave + this.props.range);
             const newFreq = this.state.frequencies[octave][this.props.note];
 
-            this.state.osc.frequency.setValueAtTime(newFreq, this.props.context.currentTime);
+            this.state.osc.frequency.linearRampToValueAtTime(newFreq, this.props.context.currentTime);
         }
     }
 
@@ -45,7 +47,16 @@ class Oscillator extends Component {
         const currentVol = this.props.vol;
 
         if(currentVol && prevVol !== currentVol) {
-            this.state.gain.gain.setValueAtTime(currentVol, this.props.context.currentTime);
+            this.state.gain.gain.linearRampToValueAtTime(currentVol, this.props.context.currentTime);
+        }
+    }
+
+    handleDetuneChange(prevProps) {
+        const prevDetune = prevProps.detune;
+        const currentDetune = this.props.detune;
+
+        if(prevDetune !== currentDetune) {
+            this.state.osc.detune.setValueAtTime(currentDetune, this.props.context.currentTime);
         }
     }
 

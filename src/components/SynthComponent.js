@@ -15,7 +15,8 @@ class Synth extends Component {
             },
             oscOne: {
                 vol: 0.5,
-                range: 4
+                range: 4,
+                detune: 0
             },
             oscTwo: {
                 vol: 0.5,
@@ -42,9 +43,9 @@ class Synth extends Component {
     componentDidUpdate(prevprops, prevState) {
         if(prevState.isPlaying !== this.state.isPlaying) {
             if(this.state.isPlaying) {
-                this.state.gain.gain.setValueAtTime(this.state.master.vol, this.state.context.currentTime);
+                this.state.gain.gain.linearRampToValueAtTime(this.state.master.vol, this.state.context.currentTime);
             } else {
-                this.state.gain.gain.setValueAtTime(0, this.state.context.currentTime);
+                this.state.gain.gain.linearRampToValueAtTime(0, this.state.context.currentTime);
             }
         }
 
@@ -89,6 +90,7 @@ class Synth extends Component {
                     octave={this.state.octave}
                     range={this.state.oscOne.range}
                     vol={this.state.oscOne.vol}
+                    detune={this.state.oscOne.detune}
                     masterVol={this.state.gain}
                 />
                 <Oscillator 
@@ -117,6 +119,15 @@ class Synth extends Component {
                             param='vol'
                             value={this.state.oscOne.vol}
                             max={1}
+                            onChange={this.handleStateChange}
+                            name=''
+                        />
+                        <Knob
+                            label='Osc 1 Detune'
+                            id='oscOne'
+                            param='detune'
+                            value={this.state.oscOne.detune}
+                            max={1200}
                             onChange={this.handleStateChange}
                             name=''
                         />

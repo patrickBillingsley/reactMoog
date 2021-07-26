@@ -10,7 +10,9 @@ class Synth extends Component {
         this.state = {
             context: new (window.AudioContext || window.webkitAudioContext)(),
             gain: null,
-            vol: 0.5,
+            master: {
+                vol: 0.5,
+            },
             oscOne: {
                 vol: 0.5,
                 range: 4
@@ -29,10 +31,7 @@ class Synth extends Component {
 
         this.updateSynthNoteAndOctave = this.updateSynthNoteAndOctave.bind(this);
         this.updateSynthIsPlaying = this.updateSynthIsPlaying.bind(this);
-        this.updateSynthVol = this.updateSynthVol.bind(this);
-        this.handleOscOneVolChange = this.handleOscOneVolChange.bind(this);
-        this.handleOscTwoVolChange = this.handleOscTwoVolChange.bind(this);
-        // this.handleOscVolChange = this.handleOscVolChange.bind(this);
+        this.handleStateChange = this.handleStateChange.bind(this);
     }
 
     componentDidMount() {
@@ -41,13 +40,9 @@ class Synth extends Component {
     }
 
     componentDidUpdate(prevprops, prevState) {
-        if(prevState !== this.state) {
-            console.log(this.state);
-        }
-
         if(prevState.isPlaying !== this.state.isPlaying) {
             if(this.state.isPlaying) {
-                this.state.gain.gain.setValueAtTime(this.state.vol, this.state.context.currentTime);
+                this.state.gain.gain.setValueAtTime(this.state.master.vol, this.state.context.currentTime);
             } else {
                 this.state.gain.gain.setValueAtTime(0, this.state.context.currentTime);
             }
@@ -74,30 +69,14 @@ class Synth extends Component {
         }));
     }
 
-    updateSynthVol(event) {
-        const newVol = +event.target.value;
+    handleStateChange(event) {
+        const target = event.target.attributes;
 
-        this.setState({ vol: newVol });
-    }
+        const id = target.id.value;
+        const param = target.param.value;
+        const newValue = +event.target.value;
 
-    // handleOscVolChange(event, id) {
-    //     const newVol = +event.target.value;
-
-    //     this.setState(() => ({ [id]: { vol: newVol } }));
-    // }
-
-    handleOscOneVolChange(event) {
-        console.log('hi');
-
-        const newVol = +event.target.value;
-
-        this.setState({ oscOne: { vol: newVol } });
-    }
-
-    handleOscTwoVolChange(event) {
-        const newVol = +event.target.value;
-
-        this.setState({ oscTwo: { vol: newVol } });
+        this.setState({ [id]: { ...this.state[id], [param]: newValue } });
     }
 
     render() {
@@ -125,23 +104,30 @@ class Synth extends Component {
                     <div className='row control-face'>
                         <Knob
                             label='Master'
-                            value={this.state.vol}
+                            id='master'
+                            param='vol'
+                            value={this.state.master.vol}
                             max={1}
-                            onChange={this.updateSynthVol}
+                            onChange={this.handleStateChange}
+                            name=''
                         />
                         <Knob
                             label='Osc 1 Vol'
-                            id='oscOneVol'
+                            id='oscOne'
+                            param='vol'
                             value={this.state.oscOne.vol}
                             max={1}
-                            onChange={this.handleOscOneVolChange}
+                            onChange={this.handleStateChange}
+                            name=''
                         />
                         <Knob
                             label='Osc 2 Vol'
-                            id='oscTwoVol'
+                            id='oscTwo'
+                            param='vol'
                             value={this.state.oscTwo.vol}
                             max={1}
-                            onChange={this.handleOscTwoVolChange}
+                            onChange={this.handleStateChange}
+                            name=''
                         />
                     </div>
                     <Keyboard 

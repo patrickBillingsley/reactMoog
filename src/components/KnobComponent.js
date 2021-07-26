@@ -1,15 +1,13 @@
 import React from 'react';
 
-function Knob({ label, value, max, onChange, id }) {
-
-    // const handleChange = (e) => {
-    //     onChange(e)
-    // }
+function Knob({ label, value, max, onChange, name, id, param }) {
 
     return(
         <label>{label}
             <input
-                className='input-knob'
+                id={id}
+                param={param}
+                className={name}
                 type='range'
                 max={max}
                 step={max/100}

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Keyboard from './KeyboardComponent';
 import Oscillator from './OscillatorComponent';
-import Knob from './KnobComponent';
+import { Knob } from 'react-rotary-knob';
+import * as skins from 'react-rotary-knob-skin-pack';
 
 class Synth extends Component {
     constructor(props) {
@@ -11,7 +12,7 @@ class Synth extends Component {
             context: new (window.AudioContext || window.webkitAudioContext)(),
             gain: null,
             master: {
-                vol: 0.5,
+                vol: 0,
             },
             oscOne: {
                 vol: 0.5,
@@ -32,7 +33,7 @@ class Synth extends Component {
 
         this.updateSynthNoteAndOctave = this.updateSynthNoteAndOctave.bind(this);
         this.updateSynthIsPlaying = this.updateSynthIsPlaying.bind(this);
-        this.handleStateChange = this.handleStateChange.bind(this);
+        this.handleOnChange = this.handleOnChange.bind(this);
     }
 
     componentDidMount() {
@@ -70,14 +71,14 @@ class Synth extends Component {
         }));
     }
 
-    handleStateChange(event) {
-        const target = event.target.attributes;
-
-        const id = target.id.value;
-        const param = target.param.value;
-        const newValue = +event.target.value;
-
-        this.setState({ [id]: { ...this.state[id], [param]: newValue } });
+    handleOnChange(value, section, parameter) {
+        const maxDistance = 200;
+        let distance = Math.abs(value - this.state[section][parameter]);
+        if(distance > maxDistance) {
+            return;
+        } else {
+            this.setState({ [section]: { ...this.state[section], [parameter]: value}})
+        }
     }
 
     render() {
@@ -104,42 +105,70 @@ class Synth extends Component {
                 />
                 <div className='container'>
                     <div className='row control-face'>
-                        <Knob
-                            label='Master'
-                            id='master'
-                            param='vol'
-                            value={this.state.master.vol}
-                            max={1}
-                            onChange={this.handleStateChange}
-                            name=''
-                        />
-                        <Knob
-                            label='Osc 1 Vol'
-                            id='oscOne'
-                            param='vol'
-                            value={this.state.oscOne.vol}
-                            max={1}
-                            onChange={this.handleStateChange}
-                            name=''
-                        />
-                        <Knob
-                            label='Osc 1 Detune'
-                            id='oscOne'
-                            param='detune'
-                            value={this.state.oscOne.detune}
-                            max={1200}
-                            onChange={this.handleStateChange}
-                            name=''
-                        />
-                        <Knob
-                            label='Osc 2 Vol'
-                            id='oscTwo'
-                            param='vol'
-                            value={this.state.oscTwo.vol}
-                            max={1}
-                            onChange={this.handleStateChange}
-                            name=''
-                        />
+                        <div className='col knob'>
+                            <Knob
+                                id='master'
+                                value={this.state.master.vol}
+                                min={0}
+                                max={1}
+                                step={0.01}
+                                preciseMode={false}
+                                onChange={value => this.handleOnChange(value, 'master', 'vol')}
+                                rotateDegrees={180}
+                                clampMin={30}
+                                clampMax={330}
+                                skin={skins.s16}
+                            />
+                            <label htmlFor='master'>Master</label>
+                        </div>
+                        <div className='col knob'>
+                            <Knob
+                                id='oscOneVol'
+                                value={this.state.oscOne.vol}
+                                min={0}
+                                max={1}
+                                step={0.01}
+                                preciseMode={false}
+                                onChange={value => this.handleOnChange(value, 'oscOne', 'vol')}
+                                rotateDegrees={180}
+                                clampMin={30}
+                                clampMax={330}
+                                skin={skins.s16}
+                            />
+                            <label htmlFor='oscOneVol'>Osc 1 Vol</label>
+                        </div>
+                        <div className='col knob'>
+                            <Knob
+                                id='oscOneDetune'
+                                value={this.state.oscOne.detune}
+                                min={-1200}
+                                max={1200}
+                                step={1}
+                                preciseMode={false}
+                                onChange={value => this.handleOnChange(value, 'oscOne', 'detune')}
+                                rotateDegrees={180}
+                                clampMin={30}
+                                clampMax={330}
+                                skin={skins.s16}
+                            />
+                            <label htmlFor='oscOneDetune'>Osc 1 Detune</label>
+                        </div>
+                        <div className='col knob'>
+                            <Knob
+                                id='oscTwoVol'
+                                value={this.state.oscTwo.vol}
+                                min={0}
+                                max={1}
+                                step={0.01}
+                                preciseMode={false}
+                                onChange={value => this.handleOnChange(value, 'oscTwo', 'vol')}
+                                rotateDegrees={180}
+                                clampMin={30}
+                                clampMax={330}
+                                skin={skins.s16}
+                            />
+                            <label htmlFor='oscTwoVol'>Osc 2 Vol</label>
+                        </div>
                     </div>
                     <Keyboard 
                         updateSynthNoteAndOctave={this.updateSynthNoteAndOctave}

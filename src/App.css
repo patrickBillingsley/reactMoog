@@ -1,5 +1,10 @@
 .control-face {
+  background-color: black;
   height: 50vh;
+}
+
+.knob {
+  background-color: red;
 }
 
 .key {

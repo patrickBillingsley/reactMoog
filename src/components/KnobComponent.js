@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Knob({ label, value, max, onChange, name, id, param }) {
+function Knob({ label, value, max, onChange, name, id, param, min=0 }) {
 
     return(
         <label>{label}
@@ -9,6 +9,7 @@ function Knob({ label, value, max, onChange, name, id, param }) {
                 param={param}
                 className={name}
                 type='range'
+                min={min}
                 max={max}
                 step={max/100}
                 value={value}

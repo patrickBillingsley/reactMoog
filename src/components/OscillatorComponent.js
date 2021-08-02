@@ -55,7 +55,7 @@ class Oscillator extends Component {
         const prevDetune = prevProps.detune;
         const currentDetune = this.props.detune;
 
-        if(prevDetune !== currentDetune) {
+        if(prevDetune && prevDetune !== currentDetune) {
             this.state.osc.detune.setValueAtTime(currentDetune, this.props.context.currentTime);
         }
     }

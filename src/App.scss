@@ -4,7 +4,8 @@
 }
 
 .knob {
-    background-color: red;
+    display: grid;
+    justify-items: center;
 }
 
 .key {
@@ -26,4 +27,8 @@
         margin-right: calc(var(--width) / -2);
         z-index: 2;
     }
+}
+
+.lift {
+    z-index: 1;
 }

@@ -46,7 +46,7 @@ class Oscillator extends Component {
         const prevVol = prevProps.vol;
         const currentVol = this.props.vol;
 
-        if(currentVol && prevVol !== currentVol) {
+        if(prevVol && prevVol !== currentVol) {
             this.state.gain.gain.linearRampToValueAtTime(currentVol, this.props.context.currentTime);
         }
     }

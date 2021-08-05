@@ -4,7 +4,9 @@
 }
 
 .knob {
-  background-color: red;
+  display: -ms-grid;
+  display: grid;
+  justify-items: center;
 }
 
 .key {
@@ -26,5 +28,9 @@
   margin-left: calc(var(--width) / -2);
   margin-right: calc(var(--width) / -2);
   z-index: 2;
+}
+
+.lift {
+  z-index: 1;
 }
 /*# sourceMappingURL=App.css.map */

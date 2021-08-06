@@ -2,17 +2,18 @@ import React from 'react';
 
 const notes = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 const twoOctaves = notes.concat(notes);
+const threeOctaves = notes.concat(twoOctaves);
 
-const Keys = ({ updateSynthNoteAndOctave }) => {
+const Keys = ({ handleNoteAndOctaveChange }) => {
     return(
-        twoOctaves.map((note, index) => {
-            let octave;
+        threeOctaves.map((note, index) => {
+            let octave = 0;
 
-            if(index < 12) {
-                octave = 0;
-            }
             if(index > 11 && index < 24) {
                 octave = 1;
+            }
+            if(index > 23 && index < 48) {
+                octave = 2;
             }
 
             const noteName = note;
@@ -22,26 +23,24 @@ const Keys = ({ updateSynthNoteAndOctave }) => {
             return(
                 <div
                     key={noteName + octave}
-                    className={`key ${keyColor}`}
+                    className={`key ${keyColor} border border-top-0 border-secondary`}
                     data-note={noteName}
                     data-octave={octave}
-                    onMouseEnter={updateSynthNoteAndOctave}
-                >
-                    {noteName + octave}
-                </div>
+                    onMouseEnter={() => handleNoteAndOctaveChange(noteName, octave)}
+                />
             );
         })
     );
 };
 
-const Keyboard = props => {
+const Keyboard = ({ handleIsPlayingChange, handleNoteAndOctaveChange }) => {
     return(
         <div 
-            className='row keys'
-            onMouseEnter={props.updateSynthIsPlaying}
-            onMouseLeave={props.updateSynthIsPlaying}
+            className='row keys border-top'
+            onMouseEnter={() => handleIsPlayingChange(true)}
+            onMouseLeave={() => handleIsPlayingChange(false)}
         >
-            <Keys octave={4} updateSynthNoteAndOctave={props.updateSynthNoteAndOctave} />
+            <Keys handleNoteAndOctaveChange={handleNoteAndOctaveChange} />
         </div>
     );
 };

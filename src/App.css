@@ -9,10 +9,6 @@
   justify-items: center;
 }
 
-.key {
-  outline: 1px solid black;
-}
-
 .key__white {
   width: 100px;
   background-color: beige;

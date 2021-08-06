@@ -38,7 +38,9 @@ class Oscillator extends Component {
             const octave = (+this.props.octave + this.props.range);
             const newFreq = this.state.frequencies[octave][this.props.note];
 
-            this.state.osc.frequency.linearRampToValueAtTime(newFreq, this.props.context.currentTime);
+            if(newFreq) {
+                this.state.osc.frequency.linearRampToValueAtTime(newFreq, this.props.context.currentTime);
+            }
         }
     }
 
@@ -46,7 +48,7 @@ class Oscillator extends Component {
         const prevVol = prevProps.vol;
         const currentVol = this.props.vol;
 
-        if(prevVol && prevVol !== currentVol) {
+        if(currentVol && prevVol !== currentVol) {
             this.state.gain.gain.linearRampToValueAtTime(currentVol, this.props.context.currentTime);
         }
     }
@@ -55,7 +57,7 @@ class Oscillator extends Component {
         const prevDetune = prevProps.detune;
         const currentDetune = this.props.detune;
 
-        if(prevDetune && prevDetune !== currentDetune) {
+        if(currentDetune && prevDetune !== currentDetune) {
             this.state.osc.detune.setValueAtTime(currentDetune, this.props.context.currentTime);
         }
     }

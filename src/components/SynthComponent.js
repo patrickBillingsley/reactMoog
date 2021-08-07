@@ -77,7 +77,6 @@ class Synth extends Component {
         this.handleSwitchChange = this.handleSwitchChange.bind(this);
         this.handleNoteAndOctaveChange = this.handleNoteAndOctaveChange.bind(this);
         this.handleIsPlayingChange = this.handleIsPlayingChange.bind(this);
-        this.handleKeyboardChange = this.handleKeyboardChange.bind(this);
     }
 
     componentDidMount() {
@@ -114,32 +113,20 @@ class Synth extends Component {
     handleRotarySelectorChange(value, section, parameter) {
         const roundValue = Math.floor(value);
 
-        return this.setState({ ...this.state, [section]: { [parameter]: roundValue }});
+        this.setState({ [section]: { ...this.state[section], [parameter]: roundValue }});
     }
 
     handleSwitchChange(value, section, parameter) {
-        return this.setState({ ...this.state, [section]: { [parameter]: value }});
+        console.log('parameter:', parameter + ' ' + value);
+        this.setState({ [section]: { ...this.state[section], [parameter]: value }});
     }
 
     handleNoteAndOctaveChange(note, octave) {
-        return this.setState({ note, octave });
+        this.setState({ note, octave });
     }
 
     handleIsPlayingChange(bool) {
-        return this.setState({ isPlaying: bool });
-    }
-
-    handleKeyboardChange(value) {
-        if(Array.isArray(value)) {
-            const note = value[0];
-            const octave = value[1];
-
-            console.log(note);
-            console.log(octave);
-
-            this.setState({ ...this.state, note: note, octave: octave });
-        }
-        this.setState({ ...this.state, isPlaying: value });
+        this.setState({ isPlaying: bool });
     }
 
     render() {
@@ -218,7 +205,6 @@ class Synth extends Component {
                     <Keyboard
                         handleNoteAndOctaveChange={this.handleNoteAndOctaveChange}
                         handleIsPlayingChange={this.handleIsPlayingChange}
-                        handleKeyboardChange={this.handleKeyboardChange}
                     />
                 </div>
             </React.Fragment>

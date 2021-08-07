@@ -44,12 +44,11 @@ class Oscillator extends Component {
         }
     }
 
-    handleVolChange(prevProps) {
-        const prevVol = prevProps.vol;
-        const currentVol = this.props.vol;
+    handleVolChange() {
+        const value = this.props.isPlaying ? this.props.vol : 0;
 
-        if(currentVol && prevVol !== currentVol) {
-            this.state.gain.gain.linearRampToValueAtTime(currentVol, this.props.context.currentTime);
+        if(this.state.gain.gain.value !== value) {
+            this.state.gain.gain.linearRampToValueAtTime(value, this.props.context.currentTime);
         }
     }
 

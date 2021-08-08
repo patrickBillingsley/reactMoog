@@ -7,6 +7,8 @@ import LoudnessContour from './LoudnessContourComponent';
 import Output from './OutputComponent';
 import Keyboard from './KeyboardComponent';
 import Oscillator from './OscillatorComponent';
+import KeyBindings from './keyBindingsComponent';
+import keyBindings from './keyBindingsComponent';
 
 class Synth extends Component {
     constructor(props) {
@@ -15,6 +17,7 @@ class Synth extends Component {
         this.state = {
             context: new (window.AudioContext || window.webkitAudioContext)(),
             gain: null,
+            keyArray: [],
             note: '',
             freq: 440,
             octave: 0,
@@ -82,6 +85,72 @@ class Synth extends Component {
     componentDidMount() {
         this.state.gain.connect(this.state.context.destination);
         this.state.gain.gain.setValueAtTime(0, this.state.context.currentTime);
+
+        document.addEventListener('keydown', event => {
+            const valueObject = keyBindings(event.code);
+
+            if(!valueObject) {
+                return;
+            }
+
+            const { note, octave, value } = valueObject;
+            
+            console.log('note:', note, 'octave:', octave, 'value:', value);
+
+            if(this.state.keyArray.includes(value)) {
+                return;
+            }
+            
+            if(note) {
+                let newKeyArray = this.state.keyArray.slice(0);
+                
+                const lastValue = newKeyArray[newKeyArray.length-1];
+                
+                newKeyArray.push(value);
+                newKeyArray = newKeyArray.sort((a, b) => a - b);
+                
+                if(value > lastValue) {
+                    this.handleNoteAndOctaveChange(note, octave);
+                }
+                
+                this.handleIsPlayingChange(true);
+                
+                this.setState({ keyArray: newKeyArray });
+            }
+        })
+
+        document.addEventListener('keyup', event => {
+            const valueObject = keyBindings(event.code);
+
+            if(!valueObject) {
+                return;
+            }
+
+            const { note, octave, value } = valueObject;
+            
+            console.log('note:', note, 'octave:', octave, 'value:', value);
+
+            if(this.state.keyArray.includes(value)) {
+                return;
+            }
+            
+            if(note) {
+                let newKeyArray = this.state.keyArray.slice(0);
+                
+                const lastValue = newKeyArray[newKeyArray.length-1];
+                
+                newKeyArray.push(value);
+                newKeyArray = newKeyArray.sort((a, b) => a - b);
+                
+                if(value > lastValue) {
+                    this.handleNoteAndOctaveChange(note, octave);
+                }
+                
+                this.handleIsPlayingChange(true);
+                
+                this.setState({ keyArray: newKeyArray });
+            }
+        })
     }
 
     componentDidUpdate(prevprops, prevState) {
@@ -105,9 +174,9 @@ class Synth extends Component {
 
         if(distance > maxDistance) {
             return;
-        } else {
-            return this.setState({ [section]: { ...this.state[section], [parameter]: value }});
         }
+        
+        this.setState({ [section]: { ...this.state[section], [parameter]: value }});
     }
 
     handleRotarySelectorChange(value, section, parameter) {

@@ -112,7 +112,7 @@ class Synth extends Component {
             const prevHighestNoteIndex = Object.values(this.state.keysPressed).lastIndexOf(true);
             const currentNoteIndex = Object.keys(this.state.keysPressed).indexOf(code);
 
-            if(currentNoteIndex > prevHighestNoteIndex) {
+            if(currentNoteIndex > prevHighestNoteIndex && KEYBINDINGS[code]) {
                 const { note, octave } = KEYBINDINGS[code];
 
                 this.setState({ note, octave, isPlaying: true, keysPressed: { ...this.state.keysPressed, [code]: true }});
@@ -150,12 +150,10 @@ class Synth extends Component {
     }
 
     componentDidUpdate(prevprops, prevState) {
-        if(prevState.isPlaying !== this.state.isPlaying) {
-            if(this.state.isPlaying) {
-                this.state.gain.gain.linearRampToValueAtTime(this.state.output.volume, this.state.context.currentTime);
-            } else {
-                this.state.gain.gain.linearRampToValueAtTime(0, this.state.context.currentTime);
-            }
+        if(this.state.isPlaying || prevState.output.vol !== this.state.output.vol) {
+            this.state.gain.gain.linearRampToValueAtTime(this.state.output.volume, this.state.context.currentTime);
+        } else {
+            this.state.gain.gain.linearRampToValueAtTime(0, this.state.context.currentTime);
         }
 
         if(prevState.octave !== this.state.octave) {

@@ -7,6 +7,7 @@ import LoudnessContour from './LoudnessContourComponent';
 import Output from './OutputComponent';
 import Keyboard from './KeyboardComponent';
 import Oscillator from './OscillatorComponent';
+import KEYBINDINGS from '../shared/KEYBINDINGS';
 
 class Synth extends Component {
     constructor(props) {
@@ -104,21 +105,47 @@ class Synth extends Component {
         document.addEventListener('keydown', event => {
             const code = event.code;
 
-            if(this.state.keysPressed[code]) {
+            if(this.state.keysPressed[code] || !code) {
                 return;
             }
 
-            console.log(code, 'ON');
+            const prevHighestNoteIndex = Object.values(this.state.keysPressed).lastIndexOf(true);
+            const currentNoteIndex = Object.keys(this.state.keysPressed).indexOf(code);
 
-            this.setState({ keysPressed: { ...this.state.keysPressed, [code]: true }});
+            if(currentNoteIndex > prevHighestNoteIndex) {
+                const { note, octave } = KEYBINDINGS[code];
+
+                this.setState({ note, octave, isPlaying: true, keysPressed: { ...this.state.keysPressed, [code]: true }});
+            } else {
+                this.setState({ keysPressed: { ...this.state.keysPressed, [code]: true }});
+            }
         })
 
         document.addEventListener('keyup', event => {
             const code = event.code;
 
-            console.log(code, 'OFF');
+            if(!code) {
+                return;
+            }
 
-            this.setState({ keysPressed: { ...this.state.keysPressed, [code]: false }});
+            const keysPressedValues = Object.values(this.state.keysPressed);
+            const keysPressedKeys = Object.keys(this.state.keysPressed);
+
+            const currentHighestNoteIndex = keysPressedValues.lastIndexOf(true);
+            const currentNoteIndex = keysPressedKeys.indexOf(code);
+            const nextHighestNoteIndex = keysPressedValues.slice(0, currentHighestNoteIndex).lastIndexOf(true);
+            const nextHighestNoteCode = keysPressedKeys[nextHighestNoteIndex] || false;
+
+            if(nextHighestNoteCode) {
+                if(currentNoteIndex === currentHighestNoteIndex) {
+                    const { note, octave } = KEYBINDINGS[nextHighestNoteCode];
+    
+                    this.setState(() => ({ note, octave }));
+                }
+            } else {
+                this.setState(() => ({ isPlaying: false }));
+            }
+            this.setState(() => ({ keysPressed: { ...this.state.keysPressed, [code]: false }}));
         })
     }
 

@@ -169,7 +169,7 @@ class Synth extends Component {
         if(distance > maxDistance) {
             return;
         } else {
-            return this.setState({ [section]: { ...this.state[section], [parameter]: value }});
+            return this.setState(() => ({ [section]: { ...this.state[section], [parameter]: value }}));
         }
     }
 
@@ -201,7 +201,7 @@ class Synth extends Component {
                     note={this.state.note}
                     octave={this.state.octave}
                     range={this.state.oscillatorBank.rangeOne}
-                    detune={this.state.controllers.tune}
+                    tune={this.state.controllers.tune}
                     waveform={this.state.oscillatorBank.waveformOne}
                     vol={this.state.mixer.volumeOne}
                     isPlaying={this.state.mixer.volumeOneSwitch}
@@ -213,6 +213,7 @@ class Synth extends Component {
                     note={this.state.note}
                     octave={this.state.octave}
                     range={this.state.oscillatorBank.rangeTwo}
+                    tune={this.state.controllers.tune}
                     detune={this.state.oscillatorBank.frequencyTwo}
                     waveform={this.state.oscillatorBank.waveformTwo}
                     vol={this.state.mixer.volumeTwo}
@@ -225,6 +226,7 @@ class Synth extends Component {
                     note={this.state.note}
                     octave={this.state.octave}
                     range={this.state.oscillatorBank.rangeThree}
+                    tune={this.state.controllers.tune}
                     detune={this.state.oscillatorBank.frequencyThree}
                     waveform={this.state.oscillatorBank.waveformThree}
                     vol={this.state.mixer.volumeThree}

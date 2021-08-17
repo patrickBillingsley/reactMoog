@@ -53,8 +53,8 @@ class Oscillator extends Component {
     }
 
     handleDetuneChange(prevProps) {
-        const prevDetune = prevProps.detune;
-        const currentDetune = this.props.detune;
+        const prevDetune = prevProps.detune ? prevProps.detune + prevProps.tune : prevProps.tune;
+        const currentDetune = this.props.detune ? this.props.detune + this.props.tune : this.props.tune;
 
         if(currentDetune && prevDetune !== currentDetune) {
             this.state.osc.detune.setValueAtTime(currentDetune, this.props.context.currentTime);

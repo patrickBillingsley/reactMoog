@@ -32,7 +32,7 @@ class Oscillator extends Component {
 
     handleNoteChange(prevProps) {
         const prevNote = prevProps.note + prevProps.octave;
-        const currentNote = this.props.note + this.props.octave;
+        const currentNote = this.props.note + (this.props.octave + this.props.range);
 
         if(prevNote !== currentNote) {
             const octave = (+this.props.octave + this.props.range);

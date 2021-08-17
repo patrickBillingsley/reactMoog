@@ -16,9 +16,27 @@ class Synth extends Component {
             context: new (window.AudioContext || window.webkitAudioContext)(),
             gain: null,
             note: '',
-            freq: 440,
             octave: 0,
             isPlaying: false,
+            keysPressed: {
+                KeyA: false,
+                KeyW: false,
+                KeyS: false,
+                KeyE: false,
+                KeyD: false,
+                KeyF: false,
+                KeyT: false,
+                KeyG: false,
+                KeyY: false,
+                KeyH: false,
+                KeyU: false,
+                KeyJ: false,
+                KeyK: false,
+                KeyO: false,
+                KeyL: false,
+                KeyP: false,
+                Semicolon: false
+            },
             controllers: {
                 tune: 0,
                 glide: 0,
@@ -82,6 +100,26 @@ class Synth extends Component {
     componentDidMount() {
         this.state.gain.connect(this.state.context.destination);
         this.state.gain.gain.setValueAtTime(0, this.state.context.currentTime);
+
+        document.addEventListener('keydown', event => {
+            const code = event.code;
+
+            if(this.state.keysPressed[code]) {
+                return;
+            }
+
+            console.log(code, 'ON');
+
+            this.setState({ keysPressed: { ...this.state.keysPressed, [code]: true }});
+        })
+
+        document.addEventListener('keyup', event => {
+            const code = event.code;
+
+            console.log(code, 'OFF');
+
+            this.setState({ keysPressed: { ...this.state.keysPressed, [code]: false }});
+        })
     }
 
     componentDidUpdate(prevprops, prevState) {

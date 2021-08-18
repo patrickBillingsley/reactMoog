@@ -14,6 +14,7 @@ class Oscillator extends Component {
         this.handleNoteChange = this.handleNoteChange.bind(this);
         this.handleVolChange = this.handleVolChange.bind(this);
         this.handleDetuneChange = this.handleDetuneChange.bind(this);
+        this.handleWaveformChange = this.handleWaveformChange.bind(this);
     }
 
     componentDidMount() {
@@ -28,6 +29,7 @@ class Oscillator extends Component {
         this.handleNoteChange(prevProps);
         this.handleVolChange(prevProps);
         this.handleDetuneChange(prevProps);
+        this.handleWaveformChange(prevProps);
     }
 
     handleNoteChange(prevProps) {
@@ -58,6 +60,39 @@ class Oscillator extends Component {
 
         if(currentDetune && prevDetune !== currentDetune) {
             this.state.osc.detune.setValueAtTime(currentDetune, this.props.context.currentTime);
+        }
+    }
+
+    handleWaveformChange(prevProps) {
+        const prevWaveform = prevProps.waveform;
+        const currentWaveform = this.props.waveform;
+
+        if(prevWaveform !== currentWaveform) {
+            let type;
+            switch(currentWaveform) {
+                case 0:
+                    type = 'triangle';
+                    break;
+                case 1:
+                    type = 'sawtooth';
+                    break;
+                case 2:
+                    type = 'sawtooth';
+                    break;
+                case 3:
+                    type = 'square';
+                    break;
+                case 4:
+                    type = 'sine';
+                    break;
+                case 5:
+                    type = 'square';
+                    break;
+                default:
+                    return;
+            };
+
+            this.state.osc.type = type;
         }
     }
 

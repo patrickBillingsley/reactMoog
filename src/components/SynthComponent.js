@@ -105,14 +105,14 @@ class Synth extends Component {
         document.addEventListener('keydown', event => {
             const code = event.code;
 
-            if(this.state.keysPressed[code] || !code) {
+            if(this.state.keysPressed[code] || !KEYBINDINGS[code]) {
                 return;
             }
 
             const prevHighestNoteIndex = Object.values(this.state.keysPressed).lastIndexOf(true);
             const currentNoteIndex = Object.keys(this.state.keysPressed).indexOf(code);
 
-            if(currentNoteIndex > prevHighestNoteIndex && KEYBINDINGS[code]) {
+            if(currentNoteIndex > prevHighestNoteIndex) {
                 const { note, octave } = KEYBINDINGS[code];
 
                 this.setState({ note, octave, isPlaying: true, keysPressed: { ...this.state.keysPressed, [code]: true }});
@@ -124,7 +124,7 @@ class Synth extends Component {
         document.addEventListener('keyup', event => {
             const code = event.code;
 
-            if(!code) {
+            if(!KEYBINDINGS[code]) {
                 return;
             }
 
@@ -169,7 +169,7 @@ class Synth extends Component {
         if(distance > maxDistance) {
             return;
         } else {
-            return this.setState(() => ({ [section]: { ...this.state[section], [parameter]: value }}));
+            return this.setState({ [section]: { ...this.state[section], [parameter]: value }});
         }
     }
 
@@ -202,6 +202,7 @@ class Synth extends Component {
                     octave={this.state.octave}
                     range={this.state.oscillatorBank.rangeOne}
                     tune={this.state.controllers.tune}
+                    glide={this.state.controllers.glide}
                     waveform={this.state.oscillatorBank.waveformOne}
                     vol={this.state.mixer.volumeOne}
                     isPlaying={this.state.mixer.volumeOneSwitch}
@@ -214,6 +215,7 @@ class Synth extends Component {
                     octave={this.state.octave}
                     range={this.state.oscillatorBank.rangeTwo}
                     tune={this.state.controllers.tune}
+                    glide={this.state.controllers.glide}
                     detune={this.state.oscillatorBank.frequencyTwo}
                     waveform={this.state.oscillatorBank.waveformTwo}
                     vol={this.state.mixer.volumeTwo}
@@ -227,6 +229,7 @@ class Synth extends Component {
                     octave={this.state.octave}
                     range={this.state.oscillatorBank.rangeThree}
                     tune={this.state.controllers.tune}
+                    glide={this.state.controllers.glide}
                     detune={this.state.oscillatorBank.frequencyThree}
                     waveform={this.state.oscillatorBank.waveformThree}
                     vol={this.state.mixer.volumeThree}

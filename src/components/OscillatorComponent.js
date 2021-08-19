@@ -36,12 +36,15 @@ class Oscillator extends Component {
         const prevNote = prevProps.note + prevProps.octave;
         const currentNote = this.props.note + (this.props.octave + this.props.range);
 
+        console.log('currentNote:', currentNote);
+
         if(prevNote !== currentNote) {
             const octave = (+this.props.octave + this.props.range);
             const newFreq = this.state.frequencies[octave][this.props.note];
 
             if(newFreq) {
-                this.state.osc.frequency.linearRampToValueAtTime(newFreq, this.props.context.currentTime);
+                // console.log(this.props.context.currentTime + this.props.glide);
+                this.state.osc.frequency.linearRampToValueAtTime(newFreq, this.props.context.currentTime + this.props.glide);
             }
         }
     }

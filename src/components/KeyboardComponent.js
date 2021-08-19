@@ -1,12 +1,17 @@
 import React from 'react';
 
 const notes = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
-const twoOctaves = notes.concat(notes);
-const threeOctaves = notes.concat(twoOctaves);
+
+function generateOctaves(n) {
+    if(n === 1) {
+        return notes;
+    }
+    return notes.concat(generateOctaves(n-1));
+}
 
 const Keys = ({ handleNoteAndOctaveChange }) => {
     return(
-        threeOctaves.map((note, index) => {
+        generateOctaves(3).map((note, index) => {
             let octave = 0;
 
             if(index > 11 && index < 24) {

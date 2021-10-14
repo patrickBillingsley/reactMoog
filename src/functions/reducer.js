@@ -1,4 +1,5 @@
-import { osc1, masterGain, ACTIONS, ctx } from '../components/SynthFunctionalComponent';
+import { osc1, masterGain, ctx } from '../components/SynthFunctionalComponent';
+import { ACTIONS } from '../shared/actions';
 import { FREQUENCIES } from '../shared/frequencies';
 
 export function reducer(state, action) {

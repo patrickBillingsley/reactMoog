@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { Knob } from 'react-rotary-knob';
 import * as skins from 'react-rotary-knob-skin-pack';
-import { ACTIONS, SynthCtx } from './SynthFunctionalComponent';
+import { SynthCtx } from './SynthFunctionalComponent';
+import { ACTIONS } from '../shared/actions';
 
 
 const KnobComponent = ({ config }) => {

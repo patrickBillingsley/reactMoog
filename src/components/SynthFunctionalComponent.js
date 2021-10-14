@@ -21,12 +21,6 @@ const initialState = {
     isPlaying: false
 };
 
-export const ACTIONS = {
-    TUNE: 'tune',
-    CHANGE_NOTE: 'change note',
-    STOP: 'stop'
-};
-
 const Synth = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
 

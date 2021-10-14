@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { ACTIONS, SynthCtx } from './SynthFunctionalComponent';
+import { SynthCtx } from './SynthFunctionalComponent';
+import { ACTIONS } from '../shared/actions';
 
 const notes = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 

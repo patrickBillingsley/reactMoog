@@ -33,6 +33,7 @@ function reducer(state, action) {
             osc1.detune.setValueAtTime(action.payload.value, ctx.currentTime);
             return { ...state, tune: action.payload.value};
         case ACTIONS.CHANGE_NOTE:
+            console.log('note:', action.payload.note);
             let {octave, note} = action.payload;
             masterGain.gain.linearRampToValueAtTime(state.masterVol, ctx.currentTime);
             osc1.frequency.linearRampToValueAtTime(FREQUENCIES[octave + 2][note], ctx.currentTime);

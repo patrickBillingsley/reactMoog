@@ -18,8 +18,7 @@ const Keys = () => {
         generateOctaves(3).map((note, index) => {
             if(index % 12 === 0) octave++;
 
-            const isFlat = note[1] ? false : true;
-            const keyColor = isFlat ? 'black' : 'white';
+            const keyColor = note[1] ? 'black' : 'white';
 
             return(
                 <div

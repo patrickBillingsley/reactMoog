@@ -1,12 +1,16 @@
 import React, { useReducer } from 'react';
-import { createOscillator } from '../functions/createOscillator';
-import Keyboard from './KeyboardFunctionalComponent';
-import Controllers from './ControllersFunctionalComponent';
 import { reducer } from '../functions/reducer';
+import { createOscillatorBank } from '../functions/createOscillatorBank';
+import Controllers from './ControllersFunctionalComponent';
+import Keyboard from './KeyboardFunctionalComponent';
 
 export const ctx = new (window.AudioContext || window.webkitAudioContext)();
 export const masterGain = ctx.createGain();
-export let [osc1, gain1] = createOscillator(ctx, masterGain);
+export const oscillatorBank = createOscillatorBank(3, ctx);
+
+oscillatorBank[0].gain.connect(masterGain);
+oscillatorBank[1].gain.connect(masterGain);
+oscillatorBank[2].gain.connect(masterGain);
 
 masterGain.gain.setValueAtTime(0, ctx.currentTime);
 masterGain.connect(ctx.destination);

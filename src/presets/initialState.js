@@ -1,7 +1,7 @@
 export const initialState = {
+    freq: 440,
     tune: 0,
-    note: 'A',
-    octave: 4,
     masterVol: 0.5,
-    isPlaying: false
+    isPlaying: false,
+    heldKeys: []
 };

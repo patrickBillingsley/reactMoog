@@ -3,7 +3,6 @@ import { reducer } from '../functions/reducer';
 import { initialState } from '../presets/initialState';
 import { createOscillatorBank } from '../functions/createOscillatorBank';
 import { KEYBINDINGS } from '../shared/KEYBINDINGS';
-import { ACTIONS } from '../shared/actions';
 import Controllers from './ControllersFunctionalComponent';
 import Keyboard from './KeyboardFunctionalComponent';
 
@@ -21,14 +20,14 @@ const Synth = () => {
         window.addEventListener('keydown', ({ code }) => {
             const index = KEYBINDINGS.indexOf(code);
             if(KEYBINDINGS.includes(code)) {
-                dispatch({ type: ACTIONS.KEY_DOWN, payload: index })
+                dispatch({ type: 'key down', payload: index })
             }
         })
         
         window.addEventListener('keyup', ({ code }) => {
             const index = KEYBINDINGS.indexOf(code);
             if(KEYBINDINGS.includes(code)) {
-                dispatch({ type: ACTIONS.KEY_UP, payload: index })
+                dispatch({ type: 'key up', payload: index })
             }
         })
     }, []);

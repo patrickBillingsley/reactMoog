@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { SynthCtx } from './SynthFunctionalComponent';
-import { ACTIONS } from '../shared/actions';
 
 const Keys = () => {
     const ctx = useContext(SynthCtx);
@@ -19,10 +18,10 @@ const Keys = () => {
                     data-note={note}
                     data-octave={octave}
                     onMouseEnter={() => {
-                        ctx.dispatch({ type: ACTIONS.CHANGE_NOTE, payload: index })
-                        ctx.dispatch({ type: ACTIONS.PLAY })
+                        ctx.dispatch({ type: 'change note', payload: index })
+                        ctx.dispatch({ type: 'play' })
                     }}
-                    onMouseLeave={() => ctx.dispatch({ type: ACTIONS.STOP })}
+                    onMouseLeave={() => ctx.dispatch({ type: 'stop' })}
                 />
             );
         })
@@ -39,7 +38,7 @@ const Keyboard = () => {
 
 function generateOctaves(n) {
     const notes = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
-    
+
     if(n === 1) {
         return notes;
     }

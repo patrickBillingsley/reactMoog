@@ -21,7 +21,7 @@ const KnobComponent = ({ config }) => {
             clampMax={config.clampMax || 330}
             skin={config.skin || skins.s16}
             preciseMode={false}
-            onChange={val => ctx.dispatch({ type: ACTIONS.TUNE, payload: { value: val } })}
+            onChange={val => ctx.dispatch({ type: 'tune', payload: { value: val } })}
         />
     );
 };

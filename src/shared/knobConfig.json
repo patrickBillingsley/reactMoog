@@ -1,0 +1,32 @@
+{
+    "controllers": {
+        "tune": {
+            "id": "tune",
+            "type": "tune",
+            "input": null,
+            "min": -500,
+            "max": 500,
+            "step": null,
+            "rotateDegrees": null,
+            "clampMin": null,
+            "clampMax": null,
+            "skin": null
+        }
+    },
+    "oscillatorBank": {
+        "frequency": [
+            {
+                "id": "frequency-1",
+                "type": "frequency",
+                "min": -800,
+                "max": 800
+            },
+            {
+                "id": "frequency-2",
+                "type": "frequency",
+                "min": -800,
+                "max": 800
+            }
+        ]
+    }
+}

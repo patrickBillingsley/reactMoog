@@ -1,6 +1,6 @@
 import * as context from '../components/SynthFunctionalComponent';
-import { ACTIONS } from '../shared/actions';
-import { FREQUENCIES } from '../shared/frequencies';
+import ACTIONS from '../shared/ACTIONS.json';
+import FREQUENCIES from '../shared/FREQUENCIES.json';
 
 export function reducer(state, action) {
     const now = context.ctx.currentTime;
@@ -9,6 +9,9 @@ export function reducer(state, action) {
         case ACTIONS.TUNE:
             context.oscillatorBank[0].osc.detune.setValueAtTime(action.payload.value, now);
             return { ...state, tune: action.payload.value};
+        case ACTIONS.FREQUENCY:
+            console.log(state);
+            return { ...state, controllers: { ...state.controllers, frequency: action.payload.value }};
         case ACTIONS.CHANGE_NOTE:
             if(state.heldKeys[0] > -1) {
                 changeNote(state.heldKeys[0]);

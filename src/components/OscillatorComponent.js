@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { FREQUENCIES } from '../shared/frequencies';
+import FREQUENCIES from '../shared/FREQUENCIES.json';
 
 class Oscillator extends Component {
     constructor(props) {

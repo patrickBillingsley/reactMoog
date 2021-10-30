@@ -11,6 +11,11 @@ function OscillatorBank() {
                     <Knob config={knobConfig.frequency[0]} />
                 </div>
             </div>
+            <div className='row m-2'>
+                <div className='col-12 knob'>
+                    <Knob config={knobConfig.frequency[1]} />
+                </div>
+            </div>
         </div>
     );
 }

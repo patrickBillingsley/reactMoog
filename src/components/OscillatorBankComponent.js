@@ -1,6 +1,6 @@
 import React from 'react';
 import Knob from './KnobFunctionalComponent';
-import knobConfig from '../shared/knobConfig.json';
+import knobConfig from '../shared/KNOB_CONFIG.json';
 
 function OscillatorBank() {
     return(
@@ -8,7 +8,7 @@ function OscillatorBank() {
             <div className='row m-2'>
                 <div className='col-12 knob'>
                     <label htmlFor='frequency'>FREQUENCY</label>
-                    <Knob config={knobConfig.oscillatorBank.frequency[0]} />
+                    <Knob config={knobConfig.frequency[0]} />
                 </div>
             </div>
         </div>

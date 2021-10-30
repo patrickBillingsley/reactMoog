@@ -7,11 +7,9 @@ export function reducer(state, action) {
 
     switch(action.type) {
         case ACTIONS.TUNE:
-            context.oscillatorBank[0].osc.detune.setValueAtTime(action.payload.value, now);
-            return { ...state, tune: action.payload.value};
+            return changeTune(action.payload);
         case ACTIONS.FREQUENCY:
-            console.log(state);
-            return { ...state, controllers: { ...state.controllers, frequency: action.payload.value }};
+            return changeFrequency(action.payload);
         case ACTIONS.CHANGE_NOTE:
             if(state.heldKeys[0] > -1) {
                 changeNote(state.heldKeys[0]);
@@ -43,6 +41,21 @@ export function reducer(state, action) {
             return { ...state, heldKeys: keyUpArray, isPlaying: isPlaying };
         default:
             return state;
+    }
+
+    function changeTune({ value }) {
+        context.oscillatorBank.forEach((oscillator, index) => {
+            const frequencyValue = state.oscillators[index].frequency || 0;
+            oscillator.osc.detune.setValueAtTime(frequencyValue + value, now);
+        })
+        return { ...state, tune: value };
+    }
+
+    function changeFrequency({ osc, value }) {
+        const newOscState =  { ...state.oscillators };
+        newOscState[osc].frequency = value;
+        context.oscillatorBank[osc].osc.detune.setValueAtTime(value + state.tune, now);
+        return { ...state, oscillators: newOscState };
     }
 }
 

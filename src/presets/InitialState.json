@@ -7,20 +7,20 @@
 
     "oscillators": [
         {
-            "range": ["LO", "32'", "16'", "8'", "4'", "2'"],
-            "waveform": ["triangle", "triangle/sawtooth", "sawtooth", "square", "wide rectangle", "narrow rectangle"],
+            "range": 3,
+            "waveform": 0,
             "volume": 0.5
         },
         {
-            "range": ["LO", "32'", "16'", "8'", "4'", "2'"],
-            "tune": 0,
-            "waveform": ["triangle", "triangle/sawtooth", "sawtooth", "square", "wide rectangle", "narrow rectangle"],
+            "range": 3,
+            "frequency": 0,
+            "waveform": 0,
             "volume": 0.5
         },
         {
-            "range": ["LO", "32'", "16'", "8'", "4'", "2'"],
-            "tune": 0,
-            "waveform": ["triangle", "reverse sawtooth", "sawtooth", "square", "wide rectangle", "narrow rectangle"],
+            "range": 3,
+            "frequency": 0,
+            "waveform": 0,
             "volume": 0.5,
             "control": true
         }

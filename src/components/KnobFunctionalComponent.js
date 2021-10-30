@@ -11,6 +11,7 @@ const KnobComponent = ({ config }) => {
         <Knob
             className={config.id}
             id={config.id}
+            osc={config.osc || null}
             value={ctx.value}
             min={config.min || 0}
             max={config.max || 10}
@@ -20,7 +21,7 @@ const KnobComponent = ({ config }) => {
             clampMax={config.clampMax || 330}
             skin={config.skin || skins.s16}
             preciseMode={false}
-            onChange={val => ctx.dispatch({ id: config.id, type: config.type, payload: { value: val } })}
+            onChange={val => ctx.dispatch({ type: config.type, payload: { value: val, osc: config.osc }})}
         />
     );
 };

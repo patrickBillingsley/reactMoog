@@ -1,6 +1,6 @@
 import React from 'react';
 import Knob from './KnobFunctionalComponent';
-import knobConfig from '../shared/knobConfig.json';
+import knobConfig from '../shared/KNOB_CONFIG.json';
 
 function Controllers() {
     return(
@@ -8,7 +8,7 @@ function Controllers() {
             <div className='row m-2'>
                 <div className='col-12 knob'>
                     <label htmlFor='controllers__tune'>TUNE</label>
-                    <Knob config={knobConfig.controllers.tune} />
+                    <Knob config={knobConfig.tune} />
                 </div>
             </div>
         </div>

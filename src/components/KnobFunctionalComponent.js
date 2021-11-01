@@ -3,25 +3,25 @@ import { Knob } from 'react-rotary-knob';
 import * as skins from 'react-rotary-knob-skin-pack';
 import { SynthCtx } from './SynthFunctionalComponent';
 
-
-const KnobComponent = ({ config }) => {
+function KnobComponent({ config }) {
     const ctx = useContext(SynthCtx);
+    const { id, osc, sub, type, min, max, step, rotateDegrees, clampMin, clampMax, skin } = config;
 
     return(
         <Knob
-            className={config.id}
-            id={config.id}
-            osc={config.osc || null}
-            value={ctx.value}
-            min={config.min || 0}
-            max={config.max || 10}
-            step={config.step || 0.01}
-            rotateDegrees={config.rotateDegrees|| 180}
-            clampMin={config.clampMin || 30}
-            clampMax={config.clampMax || 330}
-            skin={config.skin || skins.s16}
+            className={id}
+            id={id}
+            osc={osc || null}
+            value={sub ? ctx.state[sub][osc][type] : ctx.state[type]}
+            min={min || 0}
+            max={max || 10}
+            step={step || 1}
+            rotateDegrees={rotateDegrees|| 180}
+            clampMin={clampMin || 30}
+            clampMax={clampMax || 330}
+            skin={skin || skins.s16}
             preciseMode={false}
-            onChange={val => ctx.dispatch({ type: config.type, payload: { value: val, osc: config.osc }})}
+            onChange={val => ctx.dispatch({ type: type, payload: { value: val, osc: osc }})}
         />
     );
 };

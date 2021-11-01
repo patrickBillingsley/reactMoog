@@ -8,6 +8,8 @@ export function reducer(state, action) {
     switch(action.type) {
         case ACTIONS.TUNE:
             return changeTune(action.payload);
+        case ACTIONS.RANGE:
+            return changeRange(action.payload);
         case ACTIONS.FREQUENCY:
             return changeFrequency(action.payload);
         case ACTIONS.CHANGE_NOTE:
@@ -51,27 +53,34 @@ export function reducer(state, action) {
         return { ...state, tune: value };
     }
 
+    function changeRange({ osc, value }) {
+        const newRangeState = [ ...state.oscillators ];
+        newRangeState[osc].range = Math.floor(value);
+        return { ...state, oscillators: newRangeState };
+    }
+
     function changeFrequency({ osc, value }) {
-        const newOscState =  { ...state.oscillators };
+        const newOscState =  [ ...state.oscillators ];
         newOscState[osc].frequency = value;
         context.oscillatorBank[osc].osc.detune.setValueAtTime(value + state.tune, now);
         return { ...state, oscillators: newOscState };
+    }
+
+    function changeNote(index) {
+        context.oscillatorBank.forEach((osc, i) => {
+            const newFreq = getFrequency(state.oscillators[i].range * index)
+            console.log(`osc ${i}:`, newFreq);
+            osc.osc.frequency.linearRampToValueAtTime(newFreq, now);
+        })
     }
 }
 
 function getFrequency(index) {
     const octave = Math.floor(index / 12);
     const note = index % 12;
-    const frequency = Object.values(FREQUENCIES[octave + 3])[note];
+    const frequency = Object.values(FREQUENCIES[octave])[note];
 
     return frequency;
-}
-
-function changeNote(index) {
-    const freq = getFrequency(index);
-    context.oscillatorBank.forEach(osc => {
-        osc.osc.frequency.linearRampToValueAtTime(freq, context.ctx.currentTime);
-    })
 }
 
 function play(vol, time) {

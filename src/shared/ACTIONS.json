@@ -1,5 +1,6 @@
 {
     "TUNE": "tune",
+    "RANGE": "range",
     "FREQUENCY": "frequency",
     "CHANGE_NOTE": "change note",
     "PLAY": "play",

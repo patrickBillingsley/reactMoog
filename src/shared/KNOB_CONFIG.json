@@ -2,7 +2,6 @@
     "tune": {
         "id": "tune",
         "type": "tune",
-        "input": null,
         "min": -500,
         "max": 500,
         "step": null,
@@ -11,10 +10,23 @@
         "clampMax": null,
         "skin": null
     },
+    "range": [
+        {
+            "id": "range-1",
+            "type": "range",
+            "sub": "oscillators",
+            "osc": 0,
+            "min": 0,
+            "max": 5,
+            "clampMin": 90,
+            "clampMax": 280
+        }
+    ],
     "frequency": [
         {
             "id": "frequency-1",
             "type": "frequency",
+            "sub": "oscillators",
             "osc": 1,
             "min": -800,
             "max": 800
@@ -22,6 +34,7 @@
         {
             "id": "frequency-2",
             "type": "frequency",
+            "sub": "oscillators",
             "osc": 2,
             "min": -800,
             "max": 800

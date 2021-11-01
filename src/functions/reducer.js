@@ -1,9 +1,11 @@
 import * as context from '../components/SynthFunctionalComponent';
 import ACTIONS from '../shared/ACTIONS.json';
 import FREQUENCIES from '../shared/FREQUENCIES.json';
+import WAVEFORMS from '../shared/WAVEFORMS.json';
 
 export function reducer(state, action) {
     const now = context.ctx.currentTime;
+    const delay = 0.1;
 
     switch(action.type) {
         case ACTIONS.TUNE:
@@ -12,6 +14,8 @@ export function reducer(state, action) {
             return changeRange(action.payload);
         case ACTIONS.FREQUENCY:
             return changeFrequency(action.payload);
+        case ACTIONS.WAVEFORM:
+            return changeWaveform(action.payload);
         case ACTIONS.CHANGE_NOTE:
             if(state.heldKeys[0] > -1) {
                 changeNote(state.heldKeys[0]);
@@ -48,7 +52,7 @@ export function reducer(state, action) {
     function changeTune({ value }) {
         context.oscillatorBank.forEach((oscillator, index) => {
             const frequencyValue = state.oscillators[index].frequency || 0;
-            oscillator.osc.detune.setValueAtTime(frequencyValue + value, now);
+            oscillator.osc.detune.linearRampToValueAtTime(frequencyValue + value, now + delay);
         })
         return { ...state, tune: value };
     }
@@ -62,14 +66,21 @@ export function reducer(state, action) {
     function changeFrequency({ osc, value }) {
         const newOscState =  [ ...state.oscillators ];
         newOscState[osc].frequency = value;
-        context.oscillatorBank[osc].osc.detune.setValueAtTime(value + state.tune, now);
+        context.oscillatorBank[osc].osc.detune.linearRampToValueAtTime(value + state.tune, now + delay);
         return { ...state, oscillators: newOscState };
+    }
+
+    function changeWaveform({ osc, value }) {
+        const newWaveState = [ ...state.oscillators ];
+        newWaveState[osc].waveform = Math.floor(value);
+        context.oscillatorBank[osc].osc.type = WAVEFORMS[osc][newWaveState[osc].waveform];
+        console.log(context.oscillatorBank[osc].osc.type);
+        return { ...state, oscillators: newWaveState };
     }
 
     function changeNote(index) {
         context.oscillatorBank.forEach((osc, i) => {
-            const newFreq = getFrequency((state.oscillators[i].range * 12) + index)
-            console.log(`osc ${i}:`, newFreq);
+            const newFreq = getFrequency((state.oscillators[i].range * 12) + index);
             osc.osc.frequency.linearRampToValueAtTime(newFreq, now);
         })
     }

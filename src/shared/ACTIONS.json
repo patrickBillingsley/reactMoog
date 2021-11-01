@@ -2,6 +2,7 @@
     "TUNE": "tune",
     "RANGE": "range",
     "FREQUENCY": "frequency",
+    "WAVEFORM": "waveform",
     "CHANGE_NOTE": "change note",
     "PLAY": "play",
     "STOP": "stop",

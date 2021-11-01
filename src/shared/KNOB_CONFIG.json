@@ -20,6 +20,26 @@
             "max": 5,
             "clampMin": 90,
             "clampMax": 280
+        },
+        {
+            "id": "range-2",
+            "type": "range",
+            "sub": "oscillators",
+            "osc": 1,
+            "min": 0,
+            "max": 5,
+            "clampMin": 90,
+            "clampMax": 280
+        },
+        {
+            "id": "range-3",
+            "type": "range",
+            "sub": "oscillators",
+            "osc": 2,
+            "min": 0,
+            "max": 5,
+            "clampMin": 90,
+            "clampMax": 280
         }
     ],
     "frequency": [
@@ -38,6 +58,38 @@
             "osc": 2,
             "min": -800,
             "max": 800
+        }
+    ],
+    "waveform": [
+        {
+            "id": "waveform-1",
+            "type": "waveform",
+            "sub": "oscillators",
+            "osc": 0,
+            "min": 0,
+            "max": 5,
+            "clampMin": 90,
+            "clampMax": 280
+        },
+        {
+            "id": "waveform-2",
+            "type": "waveform",
+            "sub": "oscillators",
+            "osc": 1,
+            "min": 0,
+            "max": 5,
+            "clampMin": 90,
+            "clampMax": 280
+        },
+        {
+            "id": "waveform-3",
+            "type": "waveform",
+            "sub": "oscillators",
+            "osc": 2,
+            "min": 0,
+            "max": 5,
+            "clampMin": 90,
+            "clampMax": 280
         }
     ]
 }

@@ -1,21 +1,24 @@
 {
-    "freq": 440,
     "tune": 0,
+    "glide": 0,
+    "modulationMix": 0,
     "masterVol": 0.5,
     "isPlaying": false,
     "heldKeys": [],
-
     "oscillators": [
         {
             "range": 3,
+            "frequency": 0,
             "waveform": 0,
-            "volume": 0.5
+            "volume": 0.5,
+            "control": true
         },
         {
             "range": 3,
             "frequency": 0,
             "waveform": 0,
-            "volume": 0.5
+            "volume": 0.5,
+            "control": true
         },
         {
             "range": 3,
@@ -24,5 +27,18 @@
             "volume": 0.5,
             "control": true
         }
-    ]
+    ],
+    "filter": {
+        "cutoffFrequency": 0,
+        "emphasis": 0,
+        "amountOfContour": 0,
+        "attackTime": 0,
+        "decayTime": 0,
+        "sustainLevel": 8
+    },
+    "loudnessContour": {
+        "attackTime": 0,
+        "decayTime": 0,
+        "sustainLevel": 8
+    }
 }

@@ -68,7 +68,7 @@ export function reducer(state, action) {
 
     function changeNote(index) {
         context.oscillatorBank.forEach((osc, i) => {
-            const newFreq = getFrequency(state.oscillators[i].range * index)
+            const newFreq = getFrequency((state.oscillators[i].range * 12) + index)
             console.log(`osc ${i}:`, newFreq);
             osc.osc.frequency.linearRampToValueAtTime(newFreq, now);
         })

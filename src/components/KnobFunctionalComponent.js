@@ -5,14 +5,14 @@ import { SynthCtx } from './SynthFunctionalComponent';
 
 function KnobComponent({ config }) {
     const ctx = useContext(SynthCtx);
-    const { id, osc, sub, type, min, max, step, rotateDegrees, clampMin, clampMax, skin } = config;
+    const { id, osc, type, min, max, step, rotateDegrees, clampMin, clampMax, skin } = config;
 
     return(
         <Knob
             className={id}
             id={id}
             osc={osc || null}
-            value={sub ? ctx.state[sub][osc][type] : ctx.state[type]}
+            value={osc >= 0 ? ctx.state[type][osc] : ctx.state[type]}
             min={min || 0}
             max={max || 10}
             step={step || 1}

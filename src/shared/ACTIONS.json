@@ -3,6 +3,7 @@
     "RANGE": "range",
     "FREQUENCY": "frequency",
     "WAVEFORM": "waveform",
+    "VOLUME": "volume",
     "CHANGE_NOTE": "change note",
     "PLAY": "play",
     "STOP": "stop",

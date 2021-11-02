@@ -4,7 +4,7 @@ import knobConfig from '../shared/KNOB_CONFIG.json';
 
 function OscillatorBank() {
     return(
-        <div className='col-4 controllers d-flex flex-column pt-5 pb-3 border'>
+        <div className='col-3 controllers d-flex flex-column pt-5 pb-3 border'>
             <div className='row m-2'>
                 <div className='col-4 knob'>
                     <label htmlFor='range'>RANGE</label>

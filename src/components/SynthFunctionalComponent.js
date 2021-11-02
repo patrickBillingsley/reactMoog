@@ -5,6 +5,7 @@ import { createOscillatorBank } from '../functions/createOscillatorBank';
 import KEYBINDINGS from '../shared/KEYBINDINGS.json';
 import Controllers from './ControllersFunctionalComponent';
 import OscillatorBank from './OscillatorBankComponent';
+import Mixer from './MixerComponent';
 import Keyboard from './KeyboardFunctionalComponent';
 
 export const SynthCtx = React.createContext();
@@ -35,10 +36,11 @@ const Synth = () => {
 
     return(
         <div className='container-fluid'>
-            <div className='row control-face align-items-stretch'>
+            <div className='row control-face align-items-stretch text-center'>
                 <SynthCtx.Provider value={{ state, dispatch, ctx }}>
                     <Controllers />
                     <OscillatorBank />
+                    <Mixer />
                     <Keyboard />
                 </SynthCtx.Provider>
             </div>

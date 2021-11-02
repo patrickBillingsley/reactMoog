@@ -3,31 +3,13 @@
     "glide": 0,
     "modulationMix": 0,
     "masterVol": 0.5,
+    "range": [ 3, 3, 3 ],
+    "frequency": [ 0, 0, 0 ],
+    "waveform": [ 0, 0, 0 ],
+    "volume": [ 0.5, 0.5, 0.5 ],
+    "control": [ true, true, true ],
     "isPlaying": false,
     "heldKeys": [],
-    "oscillators": [
-        {
-            "range": 3,
-            "frequency": 0,
-            "waveform": 0,
-            "volume": 0.5,
-            "control": true
-        },
-        {
-            "range": 3,
-            "frequency": 0,
-            "waveform": 0,
-            "volume": 0.5,
-            "control": true
-        },
-        {
-            "range": 3,
-            "frequency": 0,
-            "waveform": 0,
-            "volume": 0.5,
-            "control": true
-        }
-    ],
     "filter": {
         "cutoffFrequency": 0,
         "emphasis": 0,
